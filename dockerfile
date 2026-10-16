@@ -1,15 +1,13 @@
 FROM python:3.11-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 
-ENV PYTHONUNBUFFERED=1 
-ENV Nombre="Carlos Daniel Medina Cabrera" 
-ENV PORT="5000"
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PORT="5000" 
 
 WORKDIR /app
 
-
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends nginx && \
+    apt-get install -y --no-install-recommends nginx curl postgresql-client && \
     rm -rf /var/lib/apt/lists/*
 
 
