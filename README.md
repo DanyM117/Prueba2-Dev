@@ -19,11 +19,15 @@ Una vez hecho eso y recomendablemente creamos un nuevo namespace para la aplicac
 
 Aplicamos el resources con ```oc apply -f resources.yml```
 
-Probablemente debamos asignar la cuenta de servicio del deploy a una política privilegiada por funciones específicas como los volumenes, podemos hacer esto con el comando: ```oc adm policy add-scc-to-user anyuid system:serviceaccount:prueba2-dev:default```
+Probablemente debamos asignar la cuenta de servicio del deploy a una política privilegiada por funciones específicas como los volumenes, podemos hacer esto con el comando:
+```oc adm policy add-scc-to-user anyuid system:serviceaccount:prueba2-dev:default```
 
-Ya solo esperamos a que los contenedores se creen correctamente y después ingresamos al backend con : ```oc rsh deployment/prueba-especial-deployment -c backend```
+Ya solo esperamos a que los contenedores se creen correctamente y después ingresamos al backend con : 
+```oc rsh deployment/prueba-especial-deployment -c backend```
 
 Con eso ya deberíamos poder hacer curl a localhost por el 8080 y despues un ```psql -c "SELECT * FROM log;"``` para ver los registros de logins.
 
 Para validar la persistencia podríamos eliminar el pod con ```oc delete pod -l app=prueba-especial```
-Esperamos a que el pod vuelva a levantarse y una vez termine podemos ejecutar directamente la consulta ```oc exec -it deployment/prueba-especial-deployment -c database -- psql -U app -d app -c "SELECT * FROM log;"``` y podremos ver que se quedarán guardados los registros previos al delete del pod
+Esperamos a que el pod vuelva a levantarse y una vez termine podemos ejecutar directamente la consulta 
+```oc exec -it deployment/prueba-especial-deployment -c database -- psql -U app -d app -c "SELECT * FROM log;"``` 
+y podremos ver que se quedarán guardados los registros previos al delete del pod
